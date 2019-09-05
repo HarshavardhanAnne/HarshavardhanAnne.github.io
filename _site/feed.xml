@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2019-09-05T00:06:41-04:00</updated><id>/feed.xml</id><title type="html">Harshavardhan Anne</title><subtitle>Harsh's blog</subtitle><entry><title type="html">Resurrection of the Shift Light - Part 1</title><link href="/Resurrection-Shift-Light-Part-1/" rel="alternate" type="text/html" title="Resurrection of the Shift Light - Part 1" /><published>2019-09-04T00:00:00-04:00</published><updated>2019-09-04T00:00:00-04:00</updated><id>/Resurrection-Shift-Light-Part-1</id><content type="html" xml:base="/Resurrection-Shift-Light-Part-1/">&lt;p&gt;Back in 2016 while in Uni, I thought of an interesting project based on some of my interests: cars, software, and hardware. The project was a shift light for manual transmission cars, displaying the RPM on a range of LEDs as well as a 7 segment display indicating the current gear.&lt;/p&gt;
+
+&lt;h2 id=&quot;some-history&quot;&gt;Some History&lt;/h2&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+    &lt;img width=&quot;45%&quot; height=&quot;45%&quot; src=&quot;/images/resurrection_arduino_shift_light/rev_0_1_front.jpg&quot; /&gt;
+    &lt;img width=&quot;45%&quot; height=&quot;45%&quot; src=&quot;/images/resurrection_arduino_shift_light/rev_0_1_back.jpg&quot; /&gt;
+&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+    &lt;font size=&quot;3&quot;&gt;
+        Fig 1: Revision 0.1 Prototype shift light
+    &lt;/font&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Above is the first prototype concept build of the shift light. Yes, it looks quite janky, however it was more of a proof of concept used to test out the code. This revision used ten LEDs for displaying the RPM data.&lt;/p&gt;
+
+&lt;p&gt;Initial work began in May of 2016, with a prototype build finished around the end of June 2016. Although this revision worked, it was quite obviously not worth putting in the car. The build quality and design was non-existent, but the majority of the code and hardware was finalized during this revision.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+    &lt;img width=&quot;45%&quot; height=&quot;45%&quot; src=&quot;/images/resurrection_arduino_shift_light/rev_0_2_front.jpg&quot; /&gt;
+    &lt;img width=&quot;45%&quot; height=&quot;45%&quot; src=&quot;/images/resurrection_arduino_shift_light/rev_0_2_back.jpg&quot; /&gt;
+&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+    &lt;font size=&quot;3&quot;&gt;
+        Fig 1: Revision 0.2 Prototype shift light
+    &lt;/font&gt;
+&lt;/p&gt;
+
+&lt;p&gt;About a year later around May 2017, I decided to revisit the shift light project. With the help of my friend Aaron, we 3D printed a well designed enclosure for the project. We even went as far as measuring the slight curvature of my dashboard, and the results were better than expected as shown above. After implementing some slight changes to the code, the “final” revision of the shift light was finished. Or so I thought.&lt;/p&gt;
+
+&lt;p&gt;Due to summer heat, the 3D printed housing started to sag caused by heat warping. This occurred because we used PLA filament for the enclosure, which has a glass transition temperature of around 60 to 65 degrees Celcius. In comparision, ABS filament has a transition temperature of around 80 to 110 degrees Celcius.&lt;/p&gt;
+
+&lt;h2 id=&quot;next-steps&quot;&gt;Next Steps&lt;/h2&gt;
+&lt;p&gt;The shift light project is the longest running project I have, and also my most favorite. The original idea and design were simple, however the actual implementation was quite naive in its approach. Throughout the few years since the birth of this project, I have gained an abundance of information and skills related to embedded systems. My plan is to utilize this accumulated knowledge to build a better revision than before.&lt;/p&gt;
+
+&lt;p&gt;The next steps in this project will be to take a few steps back and reassess the design aspect. I will review existing part selection and add/remove components as needed. I will also design a more robust 3D printed enclosure using ABS filament. The messy circuitry from before will be binned and replaced with a custom PCB designed and populated by myself. The last potential improvement will be to completely redo the software, with the intent of making the code faster, modular, and portable.&lt;/p&gt;
+
+&lt;p align=&quot;right&quot;&gt;
+    &lt;br /&gt;
+    &lt;a href=&quot;/post/Resurrection-Shift-Light-Part-2/&quot;&gt;
+    Resurrection of the Shift Light - Part 2
+    &lt;/a&gt;
+&lt;/p&gt;</content><author><name></name></author><summary type="html">Back in 2016 while in Uni, I thought of an interesting project based on some of my interests: cars, software, and hardware. The project was a shift light for manual transmission cars, displaying the RPM on a range of LEDs as well as a 7 segment display indicating the current gear.</summary></entry><entry><title type="html">Resurrection of the Shift Light - Part 2</title><link href="/Resurrection-Shift-Light-Part-2/" rel="alternate" type="text/html" title="Resurrection of the Shift Light - Part 2" /><published>2019-09-04T00:00:00-04:00</published><updated>2019-09-04T00:00:00-04:00</updated><id>/Resurrection-Shift-Light-Part-2</id><content type="html" xml:base="/Resurrection-Shift-Light-Part-2/">&lt;p&gt;Back in 2016 while in Uni, I thought of an interesting project based on some of my interests: cars, software, and hardware. The project was a shift light for manual transmission cars, displaying the RPM on a range of LEDs as well as a 7 segment display indicating the current gear.&lt;/p&gt;
+
+&lt;h2 id=&quot;some-history&quot;&gt;Some History&lt;/h2&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+    &lt;img width=&quot;45%&quot; height=&quot;45%&quot; src=&quot;/images/resurrection_arduino_shift_light/rev_0_1_front.jpg&quot; /&gt;
+    &lt;img width=&quot;45%&quot; height=&quot;45%&quot; src=&quot;/images/resurrection_arduino_shift_light/rev_0_1_back.jpg&quot; /&gt;
+&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+    &lt;font size=&quot;3&quot;&gt;
+        Fig 1: Revision 0.1 Prototype shift light
+    &lt;/font&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Above is the first prototype concept build of the shift light. Yes, it looks quite janky, however it was more of a proof of concept used to test out the code. This revision used ten LEDs for displaying the RPM data.&lt;/p&gt;
+
+&lt;p&gt;Initial work began in May of 2016, with a prototype build finished around the end of June 2016. Although this revision worked, it was quite obviously not worth putting in the car. The build quality and design was non-existent, but the majority of the code and hardware was finalized during this revision.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+    &lt;img width=&quot;45%&quot; height=&quot;45%&quot; src=&quot;/images/resurrection_arduino_shift_light/rev_0_2_front.jpg&quot; /&gt;
+    &lt;img width=&quot;45%&quot; height=&quot;45%&quot; src=&quot;/images/resurrection_arduino_shift_light/rev_0_2_back.jpg&quot; /&gt;
+&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+    &lt;font size=&quot;3&quot;&gt;
+        Fig 1: Revision 0.2 Prototype shift light
+    &lt;/font&gt;
+&lt;/p&gt;
+
+&lt;p&gt;About a year later around May 2017, I decided to revisit the shift light project. With the help of my friend Aaron, we 3D printed a well designed enclosure for the project. We even went as far as measuring the slight curvature of my dashboard, and the results were better than expected as shown above. After implementing some slight changes to the code, the “final” revision of the shift light was finished. Or so I thought.&lt;/p&gt;
+
+&lt;p&gt;Due to summer heat, the 3D printed housing started to sag caused by heat warping. This occurred because we used PLA filament for the enclosure, which has a glass transition temperature of around 60 to 65 degrees Celcius. In comparision, ABS filament has a transition temperature of around 80 to 110 degrees Celcius.&lt;/p&gt;
+
+&lt;h2 id=&quot;next-steps&quot;&gt;Next Steps&lt;/h2&gt;
+&lt;p&gt;The shift light project is the longest running project I have, and also my most favorite. The original idea and design were simple, however the actual implementation was quite naive in its approach. Throughout the few years since the birth of this project, I have gained an abundance of information and skills related to embedded systems. My plan is to utilize this accumulated knowledge to build a better revision than before.&lt;/p&gt;
+
+&lt;p&gt;The next steps in this project will be to take a few steps back and reassess the design aspect. I will review existing part selection and add/remove components as needed. I will also design a more robust 3D printed enclosure using ABS filament. The messy circuitry from before will be binned and replaced with a custom PCB designed and populated by myself. The last potential improvement will be to completely redo the software, with the intent of making the code faster, modular, and portable.&lt;/p&gt;
+
+&lt;p align=&quot;right&quot;&gt;
+    &lt;br /&gt;
+    &lt;a href=&quot;/post/2019-09-04-Resurrection-Shift-Light-Part-3.md&quot;&gt;
+    Resurrection of the Shift Light - Part 3
+    &lt;/a&gt;
+&lt;/p&gt;</content><author><name></name></author><summary type="html">Back in 2016 while in Uni, I thought of an interesting project based on some of my interests: cars, software, and hardware. The project was a shift light for manual transmission cars, displaying the RPM on a range of LEDs as well as a 7 segment display indicating the current gear.</summary></entry><entry><title type="html">Markdown Style Guide</title><link href="/Markdown-Style-Guide/" rel="alternate" type="text/html" title="Markdown Style Guide" /><published>2014-06-19T00:00:00-04:00</published><updated>2014-06-19T00:00:00-04:00</updated><id>/Markdown-Style-Guide</id><content type="html" xml:base="/Markdown-Style-Guide/">&lt;p&gt;This is a demo of all styled elements in Jekyll Now.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://raw.githubusercontent.com/barryclark/www.jekyllnow.com/gh-pages/_posts/2014-6-19-Markdown-Style-Guide.md&quot;&gt;View the markdown used to create this post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is a paragraph, it’s surrounded by whitespace. Next up are some headers, they’re heavily influenced by GitHub’s markdown style.&lt;/p&gt;
+
+&lt;h2 id=&quot;header-2-h1-is-reserved-for-post-titles&quot;&gt;Header 2 (H1 is reserved for post titles)##&lt;/h2&gt;
+
+&lt;h3 id=&quot;header-3&quot;&gt;Header 3&lt;/h3&gt;
+
+&lt;h4 id=&quot;header-4&quot;&gt;Header 4&lt;/h4&gt;
+
+&lt;p&gt;A link to &lt;a href=&quot;http://github.com/barryclark/jekyll-now/&quot;&gt;Jekyll Now&lt;/a&gt;. A big ass literal link &lt;a href=&quot;http://github.com/barryclark/jekyll-now/&quot;&gt;http://github.com/barryclark/jekyll-now/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;An image, located within /images&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/jekyll-logo.png&quot; alt=&quot;an image alt text&quot; title=&quot;an image title&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;A bulletted list&lt;/li&gt;
+  &lt;li&gt;alternative syntax 1&lt;/li&gt;
+  &lt;li&gt;alternative syntax 2
+    &lt;ul&gt;
+      &lt;li&gt;an indented list item&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;An&lt;/li&gt;
+  &lt;li&gt;ordered&lt;/li&gt;
+  &lt;li&gt;list&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Inline markup styles:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;italics&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;bold&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;code()&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Blockquote&lt;/p&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;Nested Blockquote&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Syntax highlighting can be used with triple backticks, like so:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/* Some pointless Javascript */&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;rawr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;w&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Use two trailing spaces&lt;br /&gt;
+on the right&lt;br /&gt;
+to create linebreak tags&lt;/p&gt;
+
+&lt;p&gt;Finally, horizontal lines&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;hr /&gt;</content><author><name></name></author><summary type="html">This is a demo of all styled elements in Jekyll Now.</summary></entry><entry><title type="html">You’re up and running!</title><link href="/Hello-World/" rel="alternate" type="text/html" title="You're up and running!" /><published>2014-03-03T00:00:00-05:00</published><updated>2014-03-03T00:00:00-05:00</updated><id>/Hello-World</id><content type="html" xml:base="/Hello-World/">&lt;p&gt;Next you can update your site name, avatar and other options using the _config.yml file in the root of your repository (shown below).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/config.png&quot; alt=&quot;_config.yml&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The easiest way to make your first post is to edit this one. Go into /_posts/ and update the Hello World markdown file. For more instructions head over to the &lt;a href=&quot;https://github.com/barryclark/jekyll-now&quot;&gt;Jekyll Now repository&lt;/a&gt; on GitHub.&lt;/p&gt;</content><author><name></name></author><summary type="html">Next you can update your site name, avatar and other options using the _config.yml file in the root of your repository (shown below).</summary></entry></feed>
