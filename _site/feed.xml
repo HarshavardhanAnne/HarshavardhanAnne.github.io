@@ -1,4 +1,233 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2019-09-05T00:06:41-04:00</updated><id>/feed.xml</id><title type="html">Harshavardhan Anne</title><subtitle>Harsh's blog</subtitle><entry><title type="html">Resurrection of the Shift Light - Part 1</title><link href="/Resurrection-Shift-Light-Part-1/" rel="alternate" type="text/html" title="Resurrection of the Shift Light - Part 1" /><published>2019-09-04T00:00:00-04:00</published><updated>2019-09-04T00:00:00-04:00</updated><id>/Resurrection-Shift-Light-Part-1</id><content type="html" xml:base="/Resurrection-Shift-Light-Part-1/">&lt;p&gt;Back in 2016 while in Uni, I thought of an interesting project based on some of my interests: cars, software, and hardware. The project was a shift light for manual transmission cars, displaying the RPM on a range of LEDs as well as a 7 segment display indicating the current gear.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-09-08T19:19:25-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Harshavardhan Anne</title><subtitle>Harsh's blog</subtitle><entry><title type="html">Getting Started with the STM32F103C8 - Part 1</title><link href="http://localhost:4000/GettingS-Started-STM32F103C8/" rel="alternate" type="text/html" title="Getting Started with the STM32F103C8 - Part 1" /><published>2019-09-08T00:00:00-04:00</published><updated>2019-09-08T00:00:00-04:00</updated><id>http://localhost:4000/GettingS-Started-STM32F103C8</id><content type="html" xml:base="http://localhost:4000/GettingS-Started-STM32F103C8/">&lt;p&gt;The STM32F103C8T6, code named “Blue Pill”, is a microcontroller developed by ST Microelectronics as part of their ARM cortex line of processors. Blue Pill is based on the ARM Cortex M3, with a 72 MHz max frequency, 64 KB flash, 20 KB SRAM, 37 GPIO pins, and lots of other features. For more information on this processor, here’s the &lt;a href=&quot;https://www.st.com/resource/en/datasheet/stm32f103c8.pdf&quot;&gt;datasheet&lt;/a&gt; fromt ST.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+    &lt;img width=&quot;70%&quot; height=&quot;70%&quot; src=&quot;/images/getting_started_stm32f103c8/datasheet1.png&quot; /&gt;
+    &lt;img width=&quot;70%&quot; height=&quot;70%&quot; src=&quot;/images/getting_started_stm32f103c8/datasheet2.png&quot; /&gt;  
+&lt;/p&gt;
+
+&lt;h2 id=&quot;what-youll-need&quot;&gt;What You’ll Need&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;STM32F103C8T6&lt;/li&gt;
+  &lt;li&gt;Micro usb cable&lt;/li&gt;
+  &lt;li&gt;USB to TTL Serial cable&lt;/li&gt;
+  &lt;li&gt;Soldering iron&lt;/li&gt;
+  &lt;li&gt;Linux experience&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;black-magic-probe&quot;&gt;Black Magic Probe&lt;/h2&gt;
+&lt;p&gt;BMP is a JTAG &amp;amp; SWD debugging tool designed for ARM microcontrollers. The BMP retails for around $70, however we can make our own using an STM32F103C8T6. This is optional, however you will need to either buy a BMP or ST-Link V2 programmer. In this tutorial we will be creating our own programmer, as it is cheaper and relatively easy to implement.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+    &lt;img width=&quot;60%&quot; height=&quot;60%&quot; src=&quot;/images/getting_started_stm32f103c8/bmp_wiring_diagram.png&quot; /&gt;
+&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+    &lt;font size=&quot;3&quot;&gt;
+        Fig 1: Wiring diagram &lt;a href=&quot;https://medium.com/@paramaggarwal/converting-an-stm32f103-board-to-a-black-magic-probe-c013cf2cc38c&quot;&gt;(source)&lt;/a&gt;
+    &lt;/font&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The Blue Pill comes default with a USART bootloader, which allows us to program it using a USB to TTL serial adapter. The micro usb onboard does not work for programming unfortunately, as the bootloader is different. For more information on programming the device via micro usb, look up the stm32duino project as well as &lt;a href=&quot;https://github.com/rogerclarkmelbourne/STM32duino-bootloader&quot;&gt;https://github.com/rogerclarkmelbourne/STM32duino-bootloader&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;There are two yellow jumpers on the board labeled BOOT0 and BOOT1 as shown in the wiring diagram above. Default mode of 00, the microcontroller uses its own flash memory bootloader, which currently doesn’t exist. To program the device over USART, move the BOOT0 jumper to 1 and BOOT0 to 0. That is, move the BOOT0 jumper to the right and leave the BOOT1 jumper the same. Now plug in the serial adapter into your PC.&lt;/p&gt;
+
+&lt;p&gt;Next, we will download the required files and sources in order to flash the device. I am using Ubuntu 18.04 LTS.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;add-apt-repository ppa:team-gcc-arm-embedded/ppa
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt update
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt install gcc-arm-embedded
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt install python-pip
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt install python-serial
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt install dfu-util
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~
+git clone https://github.com/jsnyder/stm32loader.git
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt install linuxbrew-wrapper
+
+git clone &lt;span class=&quot;nt&quot;&gt;--recursive&lt;/span&gt; git@github.com:blacksphere/blackmagic.git
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;blackmagic
+make
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;src
+make clean &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; make &lt;span class=&quot;nv&quot;&gt;PROBE_HOST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;stlink
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we are ready to flash. Lets test the connection to make sure the device is working and communicating properly. Navigate to your default directory and go into the stm32loader directory. Then run the python script:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;stm32loader
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;python stm32loader.py &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /dev/ttyUSB0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Can&lt;span class=&quot;s1&quot;&gt;'t init. Ensure that BOOT0 is enabled and reset device
+Traceback (most recent call last):
+  File &quot;/home/harsh/development/blue_pill_dev/stm32loader/stm32loader.py&quot;, line 436, in &amp;lt;module&amp;gt;
+    bootversion = cmd.cmdGet()
+  File &quot;/home/harsh/development/blue_pill_dev/stm32loader/stm32loader.py&quot;, line 127, in cmdGet
+    self._wait_for_ask(&quot;0x00 end&quot;)
+  File &quot;/home/harsh/development/blue_pill_dev/stm32loader/stm32loader.py&quot;, line 80, in _wait_for_ask
+    raise CmdException(&quot;Can'&lt;/span&gt;t &lt;span class=&quot;nb&quot;&gt;read &lt;/span&gt;port or timeout&lt;span class=&quot;s2&quot;&gt;&quot;)
+__main__.CmdException: Can't read port or timeout
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you get the following output above, its probably a timing issue. Double check your connections and ensure the Blue Pill is getting power. Now click the reset button on the board right before you execute the python script. Timing will be tricky, but you should see the following output if successful:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Bootloader version 22
+Chip id: 0x410 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;STM32 Medium-density&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Success! Now lets flash the blackmagic_dfu binary. Navigate to the blackmagic directory and into the src folder:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;blackmagic/src/
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;python ~/development/blue_pill_dev/stm32loader/stm32loader.py &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /dev/ttyUSB0 &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-w&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; blackmagic_dfu.bin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Execute the python script using the above command, and make sure to hit the reset button right before executing it.&lt;/p&gt;
+
+&lt;p&gt;If successful, you will see the following output:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Bootloader version 22
+Chip id: 0x410 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;STM32 Medium-density&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+Write 256 bytes at 0x8000000
+Write 256 bytes at 0x8000100
+...
+Write 256 bytes at 0x8001C00
+Write 256 bytes at 0x8001D00
+Read 256 bytes at 0x8000000
+Read 256 bytes at 0x8000100
+...
+Read 256 bytes at 0x8001C00
+Read 256 bytes at 0x8001D00
+Verification OK
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Now we can move the BOOT0 jumper back to 0, and hit the reset button. Unplug the usb/ttl adapter and remove the connecting from it to the Blue Pill. Now connect a micro usb cable to the board and your PC. Right after plugging in, you can run the command “dmesg&lt;/td&gt;
+      &lt;td&gt;tail” and you should see something similar:&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;97280.433062] usb 3-3: USB disconnect, device number 27
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;97280.433203] pl2303 ttyUSB0: pl2303 converter now disconnected from ttyUSB0
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;97280.433216] pl2303 3-3:1.0: device disconnected
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;97287.548052] debugfs: Directory &lt;span class=&quot;s1&quot;&gt;'03'&lt;/span&gt; with parent &lt;span class=&quot;s1&quot;&gt;'devices'&lt;/span&gt; already present!
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;97287.676017] usb 3-3: new full-speed USB device number 28 using xhci_hcd
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;97287.847006] usb 3-3: New USB device found, &lt;span class=&quot;nv&quot;&gt;idVendor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1d50, &lt;span class=&quot;nv&quot;&gt;idProduct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;6017, &lt;span class=&quot;nv&quot;&gt;bcdDevice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1.00
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;97287.847008] usb 3-3: New USB device strings: &lt;span class=&quot;nv&quot;&gt;Mfr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1, &lt;span class=&quot;nv&quot;&gt;Product&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2, &lt;span class=&quot;nv&quot;&gt;SerialNumber&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;3
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;97287.847010] usb 3-3: Product: Black Magic &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Upgrade&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;STLink/Discovery, &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Firmware v1.6.1-352-g3a6947a&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;97287.847011] usb 3-3: Manufacturer: Black Sphere Technologies
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;97287.847012] usb 3-3: SerialNumber: CFC6ACDD
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Lets make sure the device is being recognized. Type “lsusb” into the terminal:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Bus 003 Device 028: ID 1d50:6017 OpenMoko, Inc. 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;You should see the above line.&lt;/p&gt;
+
+&lt;p&gt;Now run the command “sudo dfu-util -l”, and you should see the following output:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Found DFU: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1d50:6017] &lt;span class=&quot;nv&quot;&gt;ver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0100, &lt;span class=&quot;nv&quot;&gt;devnum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;28, &lt;span class=&quot;nv&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1, &lt;span class=&quot;nv&quot;&gt;intf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0, &lt;span class=&quot;nv&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;3-3&quot;&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;alt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0, &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;@Internal Flash   /0x08000000/8*001Ka,120*001Kg&quot;&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;serial&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;CFC6ACDD&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now run the following command “sudo dfu-util -d 1d50:6018,:6017 -s 0x08002000:leave -D blackmagic.bin” and you should see the output:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dfu-util 0.9
+
+Copyright 2005-2009 Weston Schmidt, Harald Welte and OpenMoko Inc.
+Copyright 2010-2016 Tormod Volden and Stefan Schmidt
+This program is Free Software and has ABSOLUTELY NO WARRANTY
+Please report bugs to http://sourceforge.net/p/dfu-util/tickets/
+
+dfu-util: Invalid DFU suffix signature
+dfu-util: A valid DFU suffix will be required &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;a future dfu-util release!!!
+Opening DFU capable USB device...
+ID 1d50:6017
+Run-time device DFU version 011a
+Claiming USB DFU Interface...
+Setting Alternate Setting &lt;span class=&quot;c&quot;&gt;#0 ...&lt;/span&gt;
+Determining device status: state &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; dfuIDLE, status &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0
+dfuIDLE, continuing
+DFU mode device DFU version 011a
+Device returned transfer size 1024
+DfuSe interface name: &lt;span class=&quot;s2&quot;&gt;&quot;Internal Flash   &quot;&lt;/span&gt;
+Downloading to address &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0x08002000, size &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 78964
+Download	&lt;span class=&quot;o&quot;&gt;[=========================]&lt;/span&gt; 100%        78964 bytes
+Download &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+File downloaded successfully
+Transitioning to dfuMANIFEST state
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now lets test everything out. If you are running Ubuntu 18.04, you will need to download arm-none-eabi-gdb and install it.
+Go to the following &lt;a href=&quot;https://packages.ubuntu.com/xenial/gdb-arm-none-eabi&quot;&gt;link&lt;/a&gt; and download the file for your architecture. Now go download libreadline6 &lt;a href=&quot;https://packages.ubuntu.com/xenial/libreadline6&quot;&gt;here&lt;/a&gt;.
+Now lets install the packages:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/Downloads
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;dpkg &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; libreadline6_6.3-8ubuntu2_amd64.deb
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;dpkg &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; gdb-arm-none-eabi_7.10-1ubuntu3+9_amd64.deb
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we can test out gdb.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;arm-none-eabi-gdb
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;gdb&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; target extended-remote /dev/ttyACM0
+Remote debugging using /dev/ttyACM0
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;gdb&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And it works!&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+    &lt;img width=&quot;80%&quot; height=&quot;80%&quot; src=&quot;/images/getting_started_stm32f103c8/pinout.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Now we can connect a second Blue Pill to our BMP device. Connect +3.3V to +3.3V, GND to GND, PB14 on the BMP to SWDIO on the second pill, and PA5 to SWCLK. Make sure both BOOT0 and BOOT1 jumpers on both boards are set to “0”.&lt;/p&gt;
+
+&lt;p&gt;You can write your own blink sketch, or clone this repo &lt;a href=&quot;github.com&quot;&gt;here&lt;/a&gt; and compile. You will get a .elf file that we will load onto the second Blue Pill.&lt;/p&gt;
+
+&lt;p&gt;Now lets confirm that the second Blue Pill is connected. Navigate to your blink sketch elf file and run the following commands:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;arm-none-eabi-gdb blink-plain.elf
+
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;gdb&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; target extended-remote /dev/ttyACM0
+Remote debugging using /dev/ttyACM0
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;gdb&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; monitor swdp_scan
+Target voltage: unknown
+Available Targets:
+No. Att Driver
+ 1      STM32F1 medium density M3/M4
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;gdb&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; attach 1
+Attaching to program: blink-plain/blink-plain.elf, Remote target
+0x080001f8 &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;delay &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;delay&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;70067&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; at src/main.c:6
+6	    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delay&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; delay--&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;gdb&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; r
+The program being debugged has been started already.
+Start it from the beginning? &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;y or n&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; y
+Starting program: /blink-plain/blink-plain.elf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If everything worked successfully, you should now see a green LED on the board blinking. If you wish, you can debug using gdb.&lt;/p&gt;
+
+&lt;p&gt;Anyways, that concludes part 1 of getting started with and STM32F103C8T6 Blue Pill board.&lt;/p&gt;
+
+&lt;p align=&quot;right&quot;&gt;
+    &lt;br /&gt;
+    &lt;a href=&quot;/post/Resurrection-Shift-Light-Part-2/&quot;&gt;
+    Getting started with the STM32F103C8 - Part 2
+    &lt;/a&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&quot;sources&quot;&gt;Sources&lt;/h3&gt;
+&lt;p&gt;https://medium.com/@paramaggarwal/converting-an-stm32f103-board-to-a-black-magic-probe-c013cf2cc38c&lt;br /&gt;
+https://gojimmypi.blogspot.com/2017/07/BluePill-STM32F103-to-BlackMagic-Probe.html&lt;br /&gt;
+https://acassis.wordpress.com/2018/12/27/adding-arm-none-eabi-gdb-to-ubuntu-18-04/&lt;br /&gt;
+https://github.com/jsnyder/stm32loader&lt;br /&gt;
+https://github.com/rogerclarkmelbourne/STM32duino-bootloader&lt;br /&gt;
+https://github.com/libopencm3/libopencm3&lt;br /&gt;
+https://github.com/blacksphere/blackmagic&lt;br /&gt;
+https://mcuoneclipse.com/2019/06/23/black-magic-open-source-debug-probe-for-arm-with-eclipse-and-gdb/&lt;br /&gt;
+https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf&lt;br /&gt;
+https://cycling-touring.net/2019/05/flashing-and-debugging-non-development-stm32-boards&lt;br /&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">The STM32F103C8T6, code named “Blue Pill”, is a microcontroller developed by ST Microelectronics as part of their ARM cortex line of processors. Blue Pill is based on the ARM Cortex M3, with a 72 MHz max frequency, 64 KB flash, 20 KB SRAM, 37 GPIO pins, and lots of other features. For more information on this processor, here’s the datasheet fromt ST.</summary></entry><entry><title type="html">Resurrection of the Shift Light - Part 1</title><link href="http://localhost:4000/Resurrection-Shift-Light-Part-1/" rel="alternate" type="text/html" title="Resurrection of the Shift Light - Part 1" /><published>2019-09-04T00:00:00-04:00</published><updated>2019-09-04T00:00:00-04:00</updated><id>http://localhost:4000/Resurrection-Shift-Light-Part-1</id><content type="html" xml:base="http://localhost:4000/Resurrection-Shift-Light-Part-1/">&lt;p&gt;Back in 2016 while in Uni, I thought of an interesting project based on some of my interests: cars, software, and hardware. The project was a shift light for manual transmission cars, displaying the RPM on a range of LEDs as well as a 7 segment display indicating the current gear.&lt;/p&gt;
 
 &lt;h2 id=&quot;some-history&quot;&gt;Some History&lt;/h2&gt;
 
@@ -40,7 +269,7 @@
     &lt;a href=&quot;/post/Resurrection-Shift-Light-Part-2/&quot;&gt;
     Resurrection of the Shift Light - Part 2
     &lt;/a&gt;
-&lt;/p&gt;</content><author><name></name></author><summary type="html">Back in 2016 while in Uni, I thought of an interesting project based on some of my interests: cars, software, and hardware. The project was a shift light for manual transmission cars, displaying the RPM on a range of LEDs as well as a 7 segment display indicating the current gear.</summary></entry><entry><title type="html">Resurrection of the Shift Light - Part 2</title><link href="/Resurrection-Shift-Light-Part-2/" rel="alternate" type="text/html" title="Resurrection of the Shift Light - Part 2" /><published>2019-09-04T00:00:00-04:00</published><updated>2019-09-04T00:00:00-04:00</updated><id>/Resurrection-Shift-Light-Part-2</id><content type="html" xml:base="/Resurrection-Shift-Light-Part-2/">&lt;p&gt;Back in 2016 while in Uni, I thought of an interesting project based on some of my interests: cars, software, and hardware. The project was a shift light for manual transmission cars, displaying the RPM on a range of LEDs as well as a 7 segment display indicating the current gear.&lt;/p&gt;
+&lt;/p&gt;</content><author><name></name></author><summary type="html">Back in 2016 while in Uni, I thought of an interesting project based on some of my interests: cars, software, and hardware. The project was a shift light for manual transmission cars, displaying the RPM on a range of LEDs as well as a 7 segment display indicating the current gear.</summary></entry><entry><title type="html">Resurrection of the Shift Light - Part 2</title><link href="http://localhost:4000/Resurrection-Shift-Light-Part-2/" rel="alternate" type="text/html" title="Resurrection of the Shift Light - Part 2" /><published>2019-09-04T00:00:00-04:00</published><updated>2019-09-04T00:00:00-04:00</updated><id>http://localhost:4000/Resurrection-Shift-Light-Part-2</id><content type="html" xml:base="http://localhost:4000/Resurrection-Shift-Light-Part-2/">&lt;p&gt;Back in 2016 while in Uni, I thought of an interesting project based on some of my interests: cars, software, and hardware. The project was a shift light for manual transmission cars, displaying the RPM on a range of LEDs as well as a 7 segment display indicating the current gear.&lt;/p&gt;
 
 &lt;h2 id=&quot;some-history&quot;&gt;Some History&lt;/h2&gt;
 
@@ -82,7 +311,7 @@
     &lt;a href=&quot;/post/2019-09-04-Resurrection-Shift-Light-Part-3.md&quot;&gt;
     Resurrection of the Shift Light - Part 3
     &lt;/a&gt;
-&lt;/p&gt;</content><author><name></name></author><summary type="html">Back in 2016 while in Uni, I thought of an interesting project based on some of my interests: cars, software, and hardware. The project was a shift light for manual transmission cars, displaying the RPM on a range of LEDs as well as a 7 segment display indicating the current gear.</summary></entry><entry><title type="html">Markdown Style Guide</title><link href="/Markdown-Style-Guide/" rel="alternate" type="text/html" title="Markdown Style Guide" /><published>2014-06-19T00:00:00-04:00</published><updated>2014-06-19T00:00:00-04:00</updated><id>/Markdown-Style-Guide</id><content type="html" xml:base="/Markdown-Style-Guide/">&lt;p&gt;This is a demo of all styled elements in Jekyll Now.&lt;/p&gt;
+&lt;/p&gt;</content><author><name></name></author><summary type="html">Back in 2016 while in Uni, I thought of an interesting project based on some of my interests: cars, software, and hardware. The project was a shift light for manual transmission cars, displaying the RPM on a range of LEDs as well as a 7 segment display indicating the current gear.</summary></entry><entry><title type="html">Markdown Style Guide</title><link href="http://localhost:4000/Markdown-Style-Guide/" rel="alternate" type="text/html" title="Markdown Style Guide" /><published>2014-06-19T00:00:00-04:00</published><updated>2014-06-19T00:00:00-04:00</updated><id>http://localhost:4000/Markdown-Style-Guide</id><content type="html" xml:base="http://localhost:4000/Markdown-Style-Guide/">&lt;p&gt;This is a demo of all styled elements in Jekyll Now.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://raw.githubusercontent.com/barryclark/www.jekyllnow.com/gh-pages/_posts/2014-6-19-Markdown-Style-Guide.md&quot;&gt;View the markdown used to create this post&lt;/a&gt;.&lt;/p&gt;
 
@@ -144,7 +373,7 @@ to create linebreak tags&lt;/p&gt;
 &lt;p&gt;Finally, horizontal lines&lt;/p&gt;
 
 &lt;hr /&gt;
-&lt;hr /&gt;</content><author><name></name></author><summary type="html">This is a demo of all styled elements in Jekyll Now.</summary></entry><entry><title type="html">You’re up and running!</title><link href="/Hello-World/" rel="alternate" type="text/html" title="You're up and running!" /><published>2014-03-03T00:00:00-05:00</published><updated>2014-03-03T00:00:00-05:00</updated><id>/Hello-World</id><content type="html" xml:base="/Hello-World/">&lt;p&gt;Next you can update your site name, avatar and other options using the _config.yml file in the root of your repository (shown below).&lt;/p&gt;
+&lt;hr /&gt;</content><author><name></name></author><summary type="html">This is a demo of all styled elements in Jekyll Now.</summary></entry><entry><title type="html">You’re up and running!</title><link href="http://localhost:4000/Hello-World/" rel="alternate" type="text/html" title="You're up and running!" /><published>2014-03-03T00:00:00-05:00</published><updated>2014-03-03T00:00:00-05:00</updated><id>http://localhost:4000/Hello-World</id><content type="html" xml:base="http://localhost:4000/Hello-World/">&lt;p&gt;Next you can update your site name, avatar and other options using the _config.yml file in the root of your repository (shown below).&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/config.png&quot; alt=&quot;_config.yml&quot; /&gt;&lt;/p&gt;
 
